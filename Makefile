@@ -1,4 +1,4 @@
-.PHONY: venv ping
+.PHONY: venv ping ansible ping build
 
 venv:
 	python3.10 -m venv venv
@@ -11,3 +11,6 @@ ansible:
 
 ping:
 	ansible -i inventory/production -m ping production
+
+build:
+	ansible-playbook -i inventory/production playbooks/build.yml -vv

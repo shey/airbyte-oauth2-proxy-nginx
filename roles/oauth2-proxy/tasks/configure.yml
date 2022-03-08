@@ -1,0 +1,33 @@
+- name: oauth2-proxy config
+  template:
+    src: oauth2-proxy.cfg.j2
+    dest: "/etc/oauth2-proxy/oauth2-proxy.cfg"
+    owner: oauth2
+    group: oauth2
+    mode: 0644
+
+- name: Add proxy site config
+  template:
+    src: proxy.j2
+    dest: /etc/nginx/sites-available/proxy
+    owner: www-data
+    group: www-data
+    mode: 0644
+    backup: true
+  tags: ['nginx']
+
+- name: enable app site
+  file:
+    src: /etc/nginx/sites-available/proxy
+    dest: /etc/nginx/sites-enabled/proxy
+    owner: www-data
+    group: www-data
+    state: link
+  tags: ['nginx']
+
+- name: restart nginx
+  service:
+    name: nginx
+    enabled: yes
+    state: restarted
+  tags: ['nginx']

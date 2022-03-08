@@ -1,0 +1,6 @@
+- name: Build polymorphic nginx server
+  hosts: webservers
+  gather_facts: true
+  become: true
+  roles:
+    - { role: sites, tags: ['nginx'] }

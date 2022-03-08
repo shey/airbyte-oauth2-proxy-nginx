@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=oauth2-proxy
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+User=oauth2
+Group=oauth2
+
+ExecStart=/usr/local/bin/oauth2-proxy --config=/etc/oauth2-proxy/oauth2-proxy.cfg
+ExecReload=/bin/kill -HUP $MAINPID
+
+KillMode=process
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

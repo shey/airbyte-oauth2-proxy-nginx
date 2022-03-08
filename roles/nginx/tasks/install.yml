@@ -1,0 +1,27 @@
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: latest
+
+- name: Remove Nginx default enabled site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Remove Nginx default site
+  file:
+    path: /etc/nginx/sites-available/default
+    state: absent
+
+- name: Remove default Nginx root configuration
+  file:
+    path: /etc/nginx/nginx.conf
+    state: absent
+
+- name: Ensure Nginx directories are created
+  file:
+    path: /etc/nginx/{{item}}
+    state: directory
+  with_items:
+    - sites-available
+    - sites-enabled

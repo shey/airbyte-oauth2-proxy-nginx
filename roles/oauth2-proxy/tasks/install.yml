@@ -1,0 +1,43 @@
+- name: create /etc/oauth2-proxy/
+  file:
+    path: /etc/oauth2-proxy/
+    owner: "oauth2"
+    group: "oauth2"
+    mode: 0700
+    state: directory
+
+- name: Download compressed oauth2 binary
+  get_url:
+    url: "https://github.com/oauth2-proxy/oauth2-proxy/releases/download/v7.2.1/oauth2-proxy-v7.2.1.linux-amd64.tar.gz"
+    dest: "/tmp/"
+    mode: 0644
+
+- name: unarchive oauth2 binary
+  unarchive:
+    src: "/tmp/oauth2-proxy-v7.2.1.linux-amd64.tar.gz"
+    dest: "/tmp/"
+    copy: no
+
+- name: copy binary to bin
+  ansible.builtin.copy:
+    src:  /tmp/oauth2-proxy-v7.2.1.linux-amd64/oauth2-proxy
+    dest: /usr/local/bin/oauth2-proxy
+    remote_src: true
+    owner: oauth2
+    group: oauth2
+    mode: 0755
+
+- name: oauth2-proxy service config
+  template:
+    src: oauth2-proxy.service.j2
+    dest: "/etc/systemd/system/oauth2-proxy.service"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: enable oauth2-proxy service
+  systemd:
+    name: oauth2-proxy
+    daemon_reload: yes
+    state: started
+    enabled: yes

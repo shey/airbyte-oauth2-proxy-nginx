@@ -1,0 +1,6 @@
+*.DS_Store
+venv
+.vscode/
+.password_file
+*.vagrant
+vendor/*

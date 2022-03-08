@@ -1,0 +1,52 @@
+upstream oauth2proxy {
+  server 127.0.0.1:4180 fail_timeout=0;
+}
+
+server {
+  listen {{ ansible_host }}:80;
+  server_name internal.shey.ca;
+  return 301 https://$host$request_uri;
+}
+
+server {
+  listen                  {{ ansible_host }}:443 ssl http2;
+  server_name             internal.shey.ca;
+  client_max_body_size    80M;
+  access_log              /var/log/nginx/internal.access.log;
+  error_log               /var/log/nginx/internal.error.log notice;
+
+  proxy_set_header        Host $host;
+  proxy_set_header        X-Real-IP $remote_addr;
+  proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header        X-Forwarded-Proto $scheme;
+
+  location @oauth2proxy {
+    proxy_pass http://oauth2proxy;
+  }
+
+
+  location / {
+    if (-f $document_root/maintenance) {
+      return 503;
+    }
+
+    error_page 404              /404.html;
+    error_page 422              /422.html;
+    error_page 500 504          /500.html;
+    error_page 503              $document_root/503.html;
+
+    if (-f $request_filename) {
+      break;
+    }
+
+    if (!-f $request_filename) {
+      proxy_pass http://oauth2proxy;
+    }
+  }
+
+  # this is a hack to let us use methods
+  # other than POST on the upload path
+  location @fallback {
+    proxy_pass http://oauth2proxy;
+  }
+}

@@ -1,0 +1,10 @@
+- name: Create a oauth2 server with nginx in front.
+  hosts: webservers
+  become: yes
+  roles:
+    - { role: base, tags: ['base'] }
+    - { role: custom-users, tags: ['users'] }
+    - { role: security, tags: ['security'] }
+    - { role: swap, tags: ['swap'] }
+    - { role: nginx, tags: ['nginx'] }
+    - { role: oauth2-proxy, tag: ['oauth2'] }

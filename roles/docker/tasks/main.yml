@@ -1,0 +1,29 @@
+
+- name: add docker repo apt key
+  apt_key:
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
+    id: '9DC858229FC7DD38854AE2D88D81803C0EBFCD88'
+    state: present
+
+- name: add Docker repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+    state: present
+    update_cache: yes
+
+- name: Install docker packages
+  apt:
+    state: latest
+    update_cache: yes
+    name: [ 'docker-ce', 'ca-certificates' ]
+
+- name: add docker daemon config
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+
+- name: restart docker systemd service
+  service:
+    name: docker
+    state: restarted
+

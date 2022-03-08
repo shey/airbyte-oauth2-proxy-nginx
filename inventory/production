@@ -1,8 +1,6 @@
-yyz-web02  ansible_ssh_user=shey ansible_ssh_host=143.110.212.165
 yyz-web03  ansible_ssh_user=shey ansible_ssh_host=137.184.160.126
 
 [webservers]
-yyz-web02
 yyz-web03
 
 [production:children]

@@ -1,12 +1,13 @@
-.PHONY: venv webserver ping
+.PHONY: venv ping
 
 venv:
 	python3.10 -m venv venv
 
-webserver:
-	ansible-playbook \
-		-i inventory/production \
-		--diff playbooks/build-webserver.yml -v
+pip:
+	pip install --upgrade pip
+
+ansible:
+	pip install ansible==4.4.0
 
 ping:
 	ansible -i inventory/production -m ping production

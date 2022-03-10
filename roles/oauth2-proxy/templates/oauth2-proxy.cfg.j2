@@ -4,17 +4,16 @@ http_address = "127.0.0.1:4180"
 reverse_proxy = true
 
 
+provider        = "github"
 client_id       = "{{ github_client_id }}"
 client_secret   = "{{ github_client_secret }}"
 cookie_secret   = "{{ oauth2_proxy_secret_cookie }}"
 
-upstreams = [
-        "http://127.0.0.1:8080/"
+upstreams       = [
+        "http://127.0.0.1:{{ airbyte_webapp_port }}/"
 ]
-
 
 email_domains = [
         "*"
 ]
 
-provider        = "github"

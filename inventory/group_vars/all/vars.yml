@@ -17,3 +17,5 @@ github_client_id: "c542e55d69e2c785a3a4"
 github_client_secret : "{{ vault_github_client_secret }}"
 oauth2_proxy_secret_cookie : "{{ vault_oauth2_proxy_secret_cookie }}"
 
+# airbyte
+airbyte_webapp_port: 8000

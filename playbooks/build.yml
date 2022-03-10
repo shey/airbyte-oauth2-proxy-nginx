@@ -6,6 +6,7 @@
     - { role: custom-users, tags: ['users'] }
     - { role: security, tags: ['security'] }
     - { role: swap, tags: ['swap'] }
-    - { role: docker, tags: ['docker'] }
     - { role: nginx, tags: ['nginx'] }
-    - { role: oauth2-proxy, tag: ['oauth2'] }
+    - { role: docker, tags: ['docker'] }
+    - { role: airbyte, tags: ['airbyte'] }
+    - { role: oauth2-proxy, tags: ['oauth2'] }

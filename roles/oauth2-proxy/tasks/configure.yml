@@ -13,8 +13,7 @@
     owner: www-data
     group: www-data
     mode: 0644
-    backup: true
-  tags: ['nginx']
+  tags: ['nginx', 'nginx-config', 'config', 'oauth2', 'oauth2-config']
 
 - name: enable app site
   file:
@@ -23,11 +22,11 @@
     owner: www-data
     group: www-data
     state: link
-  tags: ['nginx']
+  tags: ['nginx', 'nginx-config', 'config', 'oauth2', 'oauth2-config']
 
 - name: restart nginx
   service:
     name: nginx
     enabled: yes
     state: restarted
-  tags: ['nginx']
+  tags: ['nginx', 'nginx-config', 'config', 'oauth2', 'oauth2-config']

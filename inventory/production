@@ -1,4 +1,4 @@
-yyz-web03  ansible_ssh_user=shey ansible_ssh_host=137.184.160.126
+yyz-web03 ansible_ssh_host=137.184.160.126
 
 [webservers]
 yyz-web03

@@ -1,0 +1,44 @@
+- name: Ensure group "airbyte" exists
+  ansible.builtin.group:
+    name: airbyte
+    state: present
+
+- name: create a airbyte user
+  user:
+    name: airbyte
+    createhome: yes
+    shell: /bin/bash
+    groups: ['airbyte', 'docker']
+    state: present
+
+- name: Copy docker-compose.yml file
+  ansible.builtin.copy:
+    src: docker-compose.yml
+    dest: /home/airbyte/docker-compose.yml
+    owner: airbyte
+    group: airbyte
+    mode: '0644'
+  tags: ['airbyte', 'airbyte-config', 'config']
+
+- name: generate .env file for docker-compose/airbyte
+  template:
+    src: env.j2
+    dest: /home/airbyte/.env
+  tags: ['airbyte', 'airbyte-config', 'config']
+
+- name: airbyte service config
+  template:
+    src: airbyte.service.j2
+    dest: "/etc/systemd/system/airbyte.service"
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['airbyte', 'airbyte-config', 'config']
+
+- name: start enable airbyte service
+  systemd:
+    name: airbyte
+    daemon_reload: yes
+    state: started
+    enabled: yes
+  tags: ['airbyte', 'airbyte-config', 'config']

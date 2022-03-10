@@ -1,0 +1,32 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=airbyte
+Requires=network-online.target
+After=docker.service
+
+[Service]
+User=airbyte
+Group=docker
+
+# First run requires pulling images
+Environment=COMPOSE_HTTP_TIMEOUT=600
+
+# where the .env and docker-compose.yml files lives
+WorkingDirectory=/home/airbyte/
+
+# Shutdown container (if running) when unit is started
+ExecStartPre=/usr/local/bin/docker-compose -f docker-compose.yml down
+
+# Start container when unit is started
+ExecStart=/usr/local/bin/docker-compose -f docker-compose.yml up
+
+# Stop container when unit is stopped
+ExecStop=/usr/local/bin/docker-compose -f docker-compose.yml down
+
+
+KillMode=process
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

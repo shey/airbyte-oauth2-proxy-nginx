@@ -44,5 +44,6 @@
       whois,
       net-tools,
       debian-keyring,
-      debian-archive-keyring
+      debian-archive-keyring,
+      ntp
     ]

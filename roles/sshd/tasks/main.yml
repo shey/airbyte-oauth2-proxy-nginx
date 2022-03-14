@@ -1,11 +1,6 @@
-- name: install fail2ban
-  apt:
-    name: fail2ban
-    state: present
-
 - name: Add new sshd_config
-  template:
-    src: sshd_config.j2
+  copy:
+    src: files/sshd_config
     dest: /etc/ssh/sshd_config
     mode: 0600
   tags: sshd-config

@@ -4,7 +4,7 @@
   roles:
     - { role: base, tags: ['base'] }
     - { role: custom-users, tags: ['users'] }
-    - { role: security, tags: ['security'] }
+    - { role: sshd, tags: ['sshd'] }
     - { role: swap, tags: ['swap'] }
     - { role: nginx, tags: ['nginx'] }
     - { role: docker, tags: ['docker'] }

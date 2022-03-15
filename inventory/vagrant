@@ -1,7 +1,0 @@
-app01  ansible_user=vagrant ansible_host=10.128.32.101
-
-[webservers]
-app01
-
-[vagrant:children]
-webservers

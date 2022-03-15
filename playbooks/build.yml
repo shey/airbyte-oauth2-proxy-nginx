@@ -6,7 +6,10 @@
     - { role: custom-users, tags: ['users'] }
     - { role: sshd, tags: ['sshd'] }
     - { role: swap, tags: ['swap'] }
-    - { role: nginx, tags: ['nginx'] }
     - { role: docker, tags: ['docker'] }
+      # basic nginx role, used to provision cert
+    - { role: nginx-certbot, tags: ['nginx'] }
+      # nginx configured with TLS support
+    - { role: nginx-reverse-proxy, tags: ['nginx'] }
     - { role: airbyte, tags: ['airbyte'] }
     - { role: oauth2-proxy, tags: ['oauth2'] }

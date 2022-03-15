@@ -1,0 +1,11 @@
+- name: Install certbot
+  apt:
+    name: certbot
+    state: latest
+
+- name: execute certbot
+  shell: |
+    certbot  certonly --non-interactive \
+      --agree-tos --expand --webroot \
+      -m "{{ admin_email }}"  --domain  {{ server_name }} \
+      --webroot-path "/var/www/letsencrypt/"

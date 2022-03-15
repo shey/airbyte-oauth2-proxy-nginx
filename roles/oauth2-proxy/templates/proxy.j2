@@ -15,38 +15,19 @@ server {
   access_log              /var/log/nginx/{{ server_name }}.access.log;
   error_log               /var/log/nginx/{{ server_name }}.error.log notice;
 
-  proxy_set_header        Host $host;
-  proxy_set_header        X-Real-IP $remote_addr;
-  proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-  proxy_set_header        X-Forwarded-Proto $scheme;
-
-  location @oauth2proxy {
-    proxy_pass http://oauth2proxy;
-  }
-
+  proxy_set_header        Host                  $host;
+  proxy_set_header        X-Real-IP             $remote_addr;
+  proxy_set_header        X-Forwarded-For       $proxy_add_x_forwarded_for;
+  proxy_set_header        X-Forwarded-Proto     $scheme;
 
   location / {
-    if (-f $document_root/maintenance) {
-      return 503;
-    }
-
-    error_page 404              /404.html;
-    error_page 422              /422.html;
-    error_page 500 504          /500.html;
-    error_page 503              $document_root/503.html;
-
-    if (-f $request_filename) {
-      break;
-    }
-
-    if (!-f $request_filename) {
-      proxy_pass http://oauth2proxy;
-    }
-  }
-
-  # this is a hack to let us use methods
-  # other than POST on the upload path
-  location @fallback {
     proxy_pass http://oauth2proxy;
   }
+
+  # to support certbot
+  location ^~ /.well-known/acme-challenge/ {
+    default_type "text/plain";
+    root /var/www/letsencrypt;
+  }
+
 }

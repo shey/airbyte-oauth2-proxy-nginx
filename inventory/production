@@ -1,7 +1,7 @@
-yyz-web03 ansible_ssh_host=137.184.160.126
+airbyte001 ansible_ssh_host="PUBLIC IP ADDRESS"
 
 [webservers]
-yyz-web03
+airbyte001
 
 [production:children]
 webservers
